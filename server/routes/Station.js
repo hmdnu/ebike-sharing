@@ -1,10 +1,16 @@
-import { getStation, updateStation, getIndividualBike } from "../controllers/Station.js";
+import {
+  getStation,
+  updateStation,
+  getIndividualBike,
+  createStation,
+} from "../controllers/Station.js";
 import express from "express";
 
 const router = express.Router();
 
 router.get("/", getStation);
-router.patch("/update/:id/:index", updateStation);
+router.post("/new", createStation);
+router.patch("/update/:stationId/bike/:bikeCode", updateStation);
 router.get("/:id", getIndividualBike);
 
 export default router;

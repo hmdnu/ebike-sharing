@@ -21,11 +21,9 @@ export async function createRental(req, res) {
 
 export async function getRental(req, res) {
   try {
-    const rental = await Rental.find().populate({ path: "renter" });
+    const rental = await Rental.find();
 
-    return res
-      .status(200)
-      .json({ rental, message: "fetching rental success", success: true });
+    return res.status(200).json({ rental, message: "fetching rental success", success: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "failed to fetch", success: false });
@@ -38,9 +36,7 @@ export async function getIndividualRenters(req, res) {
   try {
     const renters = await Rental.findById(id);
 
-    return res
-      .status(200)
-      .json({ renters, message: "fetching renters success", success: true });
+    return res.status(200).json({ renters, message: "fetching renters success", success: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "failed to fetch", success: false });

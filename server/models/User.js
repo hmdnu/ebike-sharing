@@ -3,28 +3,37 @@ import { Schema, model } from "mongoose";
 const UserSchema = new Schema({
   nim: {
     type: Number,
-    required: [true, "nim diperlukan"],
+    required: true,
   },
+  email: String,
   password: {
     type: String,
-    required: [true, "password diperlukan"],
+    required: true,
   },
   nama: {
     type: String,
-    required: [true, "nama diperlukan"],
+    required: true,
   },
   jurusan: {
     type: String,
-    required: [true, "jurusan diperlukan"],
+    required: true,
   },
   prodi: {
     type: String,
-    required: [true, "prodi diperlukan"],
+    required: true,
   },
   noHp: {
     type: String,
-    required: [true, "no hp diperlukan"],
+    required: true,
   },
+  historyRental: [
+    {
+      bikeCode: Number,
+      station: Number,
+      pickUpTime: Date,
+      dateRent: Date,
+    },
+  ],
 });
 
 const User = model("User", UserSchema);

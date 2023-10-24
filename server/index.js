@@ -10,7 +10,6 @@ import rentalRoutes from "./routes/Rental.js";
 import stationRoutes from "./routes/Station.js";
 
 import Station from "./models/Station.js";
-import Rental from "./models/Rental.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -33,31 +32,6 @@ mongoose
   })
   .then(() => console.log("Database is connected"))
   .catch((err) => console.log("Failed to connect to database", err));
-
-(async () => {
-  try {
-    await Station.updateOne({
-      station: 1,
-      bike: [
-        {
-          bikeNumber: 1,
-          renter: "6531316f7fe09c6952e7e5d5",
-        },
-        { bikeNumber: 2 },
-        { bikeNumber: 3 },
-        { bikeNumber: 4 },
-        { bikeNumber: 5 },
-        { bikeNumber: 6 },
-      ],
-    });
-
-    console.log("sukses");
-  } catch (error) {
-    console.log(error);
-  }
-})();
-
-// update rental
 
 app.use("/user", userRoutes);
 app.use("/rental", rentalRoutes);

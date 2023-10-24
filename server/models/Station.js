@@ -1,37 +1,16 @@
 import { Schema, model } from "mongoose";
 
-// const historySchema = new Schema({
-//   renter: {
-//     type: Schema.Types.ObjectId,
-//     ref: "Rental",
-//   },
-// });
-
-// const bikeSchema = new Schema({
-//   bikeNumber: Number,
-//   renterHistory: {
-//     type: [historySchema],
-//     default: [],
-//   },
-// });
-
-// const StationSchema = new Schema({
-//   station: Number,
-//   bike: {
-//     type: [bikeSchema],
-//     default: [],
-//   },
-// });
-
 const StationSchema = new Schema({
   station: Number,
   bike: [
     {
-      bikeNumber: Number,
-      renter: [
+      bikeCode: Number,
+      historyRenter: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "User",
+          renter: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+          },
         },
       ],
     },

@@ -2,29 +2,41 @@ import Station from "../models/Station.js";
 
 export async function getStation(req, res) {
   try {
-    const station = await Station.find().populate("bike");
+    const station = await Station.find().populate({
+      path: "bike.historyRenter.renter",
+    });
 
-    return res
-      .status(200)
-      .json({ station, message: "fetch station success", success: true });
+    return res.status(200).json({ station, message: "fetch station success", success: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "fetch station failed", success: false });
   }
 }
 
-export async function updateStation(req, res) {
-  const { renter } = req.body;
-  const { id, index } = req.params;
+export async function createStation(req, res) {
+  const { station, bike } = req.body;
 
   try {
-    const station = await Station.findById(id);
+    const stations = await Station.create({ station, bike });
 
-    const bike = station.bike[index];
+    return res.json({ stations, message: "station created successfully", success: true });
+  } catch (error) {
+    console.log(error);
+    return res.json({ message: "error" });
+  }
+}
 
-    await station.save();
+export async function updateStation(req, res) {
+  const { stationId, bikeCode } = req.params;
+  const { renter } = req.body;
 
-    console.log(bike);
+  try {
+    const stations = await Station.findById(stationId);
+    stations.bike
+      .find((bike) => bike.bikeCode === parseInt(bikeCode))
+      .historyRenter.push({ renter });
+
+    await stations.save();
     return res.status(200).json({ message: "update station success", success: true });
   } catch (error) {
     console.log(error);
@@ -38,9 +50,7 @@ export async function getIndividualBike(req, res) {
   try {
     const bike = await Station.findById(id);
 
-    return res
-      .status(200)
-      .json({ bike, message: "fetch station success", success: true });
+    return res.status(200).json({ bike, message: "fetch station success", success: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "fetch station failed", success: false });

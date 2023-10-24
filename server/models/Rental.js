@@ -1,12 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const RentalSchema = new Schema({
-  renter: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
-
-  bikeNumber: {
+  bikeCode: {
     type: Number,
     required: true,
   },
