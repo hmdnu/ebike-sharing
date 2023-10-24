@@ -1,5 +1,11 @@
-import React from "react";
+import { Card } from "../components";
+import { Navbar } from "../components";
 
-export default function Home() {
-  return <div>Home</div>;
+export default function App() {
+  return (
+    <div>
+      <Navbar />
+      <Card />
+    </div>
+  );
 }
