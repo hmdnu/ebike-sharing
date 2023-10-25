@@ -1,32 +1,62 @@
-export default function Card() {
-  return (
-    <div className="my-20 mx-[165px]">
-      <div className="max-w-xs bg-white border border-gray-200 rounded-lg shadow">
-        <div className="p-10">
-          <a href="#">
-            <h5 className="mb-2 text-base font-bold tracking-tight text-gray-900 text-center">
-              BIKE CODE : 005{" "}
-            </h5>
-          </a>
-        </div>
-        <a href="#">
-          <img
-            className="rounded-t-lg p-9 flex mx-auto py-5"
-            src="src/assets/images/bike.png"
-            alt=""
-          />
-        </a>
-        <div className="p-9">
-          <button
-            href="#"
-            className=" items-center px-3 py-2 text-center w-full font-bold text-base bg-primary rounded-lg focus:ring-4 focus:outline-none"
-          >
-            RENT{" "}
-          </button>
-        </div>
-      </div>
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import LoadingCard from "./LoadingCard";
 
-      {/* <div classNameName="font-urban">
+export default function Card() {
+  const [stations, setStations] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+
+        const data = await fetch(
+          `${import.meta.env.VITE_API_URL}/station` || "http://localhost:5000/station",
+          {
+            credentials: "include",
+          }
+        );
+        const res = await data.json();
+        console.log(res);
+
+        if (res.success) {
+          setStations(res.station);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
+  return (
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      {loading ? (
+        <LoadingCard stations={stations} />
+      ) : (
+        <>
+          {stations[0]?.bike.map((bike) => (
+            <div key={bike._id} className="bg-secondary rounded-lg shadow px-9 py-5">
+              <h1 className="mb-2 text-base font-bold tracking-tight text-gray-900 text-center">
+                BIKE CODE : {`00${bike.bikeCode}`}
+              </h1>
+              <img className="w-60 flex mx-auto py-5" src="src/assets/images/bike.png" alt="" />
+              <div>
+                <button className="items-center px-3 py-2 text-center w-full font-bold text-base bg-primary rounded-lg focus:ring-4 focus:outline-none">
+                  RENT
+                </button>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+    </div>
+  );
+}
+
+{
+  /* <div classNameName="font-urban">
         <div className="px-40 py-10">
           <div className="flex space-x-20 mt-10">
             <div className="basis-1/3 bg-gray-100 rounded-xl p-10">
@@ -41,10 +71,16 @@ export default function Card() {
             </div>
           </div>
         </div>
-      </div> */}
-      {/* <!-- end dashboard client --> */}
-      {/* <!-- modal --> */}
-      {/* <div
+      </div> */
+}
+{
+  /* <!-- end dashboard client --> */
+}
+{
+  /* <!-- modal --> */
+}
+{
+  /* <div
           class="w-full h-full mt-0 ml-0 fixed top-0 left-0 flex bg-[rgba(0,0,0,.5)] items-center"
           id="modal-container"
         >
@@ -60,8 +96,8 @@ export default function Card() {
               </button>
             </div>
           </div>
-        </div> */}
-      {/* <!-- end modal --> */}
-    </div>
-  );
+        </div> */
+}
+{
+  /* <!-- end modal --> */
 }

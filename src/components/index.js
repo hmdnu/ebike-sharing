@@ -1,8 +1,7 @@
 import Card from "./Card";
-export { Card };
-
+import Modal from "./Modal";
 import Navbar from "./Navbar";
-export { Navbar };
+import AuthProvider from "./AuthProvider";
+import LoadingCard from "./LoadingCard";
 
-// import Modal from "./Modal";
-// export { Modal };
+export { Navbar, Card, Modal, AuthProvider, LoadingCard };
