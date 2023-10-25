@@ -1,4 +1,26 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 export default function Profile() {
+  const [user, setUser] = useState([]);
+
+  let { userId } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await fetch(
+          `${import.meta.env.VITE_API_URL}/user/${userId}` || `http://localhost:5000/user/${userId}`
+        );
+        const res = await data.json();
+        console.log(res);
+        setUser(res);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
   return (
     <>
       <div className="flex my-20 mx-[165px]">

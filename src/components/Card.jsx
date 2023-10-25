@@ -5,6 +5,8 @@ import LoadingCard from "./LoadingCard";
 export default function Card() {
   const [stations, setStations] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [bikeId, setBikeId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -18,7 +20,6 @@ export default function Card() {
           }
         );
         const res = await data.json();
-        console.log(res);
 
         if (res.success) {
           setStations(res.station);
@@ -29,6 +30,11 @@ export default function Card() {
       }
     })();
   }, []);
+
+  function handleShowModal(bikeId) {
+    setShowModal((prev) => !prev);
+    setBikeId(bikeId);
+  }
 
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -43,7 +49,10 @@ export default function Card() {
               </h1>
               <img className="w-60 flex mx-auto py-5" src="src/assets/images/bike.png" alt="" />
               <div>
-                <button className="items-center px-3 py-2 text-center w-full font-bold text-base bg-primary rounded-lg focus:ring-4 focus:outline-none">
+                <button
+                  onClick={() => handleShowModal(bike._id)}
+                  className="items-center px-3 py-2 text-center w-full font-bold text-base bg-primary rounded-lg focus:ring-4 focus:outline-none"
+                >
                   RENT
                 </button>
               </div>
