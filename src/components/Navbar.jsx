@@ -11,7 +11,9 @@ export default function Navbar() {
   const token = Cookies.get("auth");
   const user = jwtDecode(token);
 
-  useEffect(() => {}, []);
+  function handleLogout() {
+    Cookies.remove("auth");
+  }
 
   return (
     <nav className="bg-white fixed top-0 left-0 w-full shadow-md h-[55px] flex items-center z-50">
@@ -31,7 +33,9 @@ export default function Navbar() {
             className="w-[180px] font-medium absolute right-0 bottom-[-60px] bg-white shadow-md rounded-md px-3 py-1 flex flex-col"
           >
             <NavLink to={`profile/${user.id}`}>Profile</NavLink>
-            <button className="w-fit">Log out</button>
+            <button onClick={handleLogout} className="w-fit">
+              Log out
+            </button>
           </div>
         )}
       </div>
