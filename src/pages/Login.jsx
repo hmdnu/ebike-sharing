@@ -1,39 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [input, setInput] = useState({ nim: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
   const navigate = useNavigate();
 
   async function handleLogin(e) {
     e.preventDefault();
 
     try {
-      const data = await fetch(
-        `${import.meta.env.VITE_API_URL}/user` || "http://localhost:5000/user",
-        {
-          headers: {
-            "Content-type": "application/json",
-          },
-          credentials: "include",
-          method: "POST",
-          body: JSON.stringify({
-            ...input,
-          }),
-        }
-      );
+      setLoading(true);
+      const data = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, {
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+        method: "POST",
+        body: JSON.stringify({
+          nim: input.nim,
+          password: input.password,
+        }),
+      });
 
       const res = await data.json();
-
       console.log(res);
+
       if (res.success) {
-        localStorage.setItem("name", res.nama);
+        setLoading(false);
+        console.log("ok");
         navigate("/");
       }
     } catch (error) {
       console.error(error);
+      if (error) setError(true);
+    } finally {
     }
   }
+
+  useEffect(() => {
+    document.title = "Login";
+  }, []);
 
   return (
     <div className="bg-cover h-screen bg-center flex items-center justify-center bg-[url('src/assets/images/login-bg.png')]">
@@ -78,8 +87,9 @@ export default function Login() {
               </div>
             </div>
             <button className="rounded-md p-2 w-full bg-primary text-center text-base font-semibold roun">
-              SIGN IN
+              {loading ? "Loading..." : "SIGN IN"}
             </button>
+            <h1>{error && "Error"}</h1>
           </form>
         </div>
       </div>

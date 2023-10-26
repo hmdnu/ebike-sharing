@@ -1,99 +1,95 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Navbar } from "../components";
+import { profilePic, loadingWheel } from "../assets/images";
 
 export default function Profile() {
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   let { userId } = useParams();
 
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const data = await fetch(
-          `${import.meta.env.VITE_API_URL}/user/${userId}` || `http://localhost:5000/user/${userId}`
+          `${import.meta.env.VITE_API_URL}/user/${userId}` ||
+            `http://localhost:5000/user/${userId}`,
         );
         const res = await data.json();
-        console.log(res);
-        setUser(res);
+
+        if (res.success) {
+          setLoading(false);
+          setUser(res.user);
+        }
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
 
+  useEffect(() => {
+    document.title = "Profile";
+  }, []);
+
   return (
     <>
-      <div className="flex my-20 mx-[165px]">
-        <div className="flex-initial bg-gray-100 rounded-xl p-9">
-          <div className="flex items-center">
-            <div className="flex-initial w-10">
-              <img src="src/assets/images/profile.png" alt="" />
+      <Navbar />
+      <div className="w-[80%] m-auto flex justify-center items-center pt-20">
+        <div className="w-full flex gap-[30px]">
+          {/* user profile */}
+          <aside className="w-[285px] bg-secondary p-8 rounded-[10px] h-fit relative">
+            {loading ? (
+              <img src={loadingWheel} className="animate-spin w-[80px] m-auto" alt="loading" />
+            ) : (
+              <>
+                <div className="flex items-center gap-3 mb-11">
+                  <img src={profilePic} alt="" />
+                  <div>
+                    <h1>{user.nama}</h1>
+                    <h2>{user.nim}</h2>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-[26px]">
+                  <div>
+                    <h1>Jurusan</h1>
+                    <h2>{user.jurusan}</h2>
+                  </div>
+                  <div>
+                    <h1>Prodi</h1>
+                    <h2>{user.prodi}</h2>
+                  </div>
+                  <div>
+                    <h1>No Hp.</h1>
+                    <h2>{user.noHp}</h2>
+                  </div>
+                  <div>
+                    <h1>Email</h1>
+                    <h2>{user.email}</h2>
+                  </div>
+                </div>
+              </>
+            )}
+          </aside>
+
+          <section className="w-full flex flex-col gap-2 font-bold">
+            <div className="grid grid-cols-5 rounded-md px-9 py-5 text-white bg-[#0C0E10]">
+              <h1>BIKE CODE</h1>
+              <h1>Date</h1>
+              <h1>Pick Up Time</h1>
+              <h1>Return Time</h1>
+              <h1>Status</h1>
             </div>
-            <div className="flex-initial w-10 pl-3">
-              <h1 className="font-bold text-xl">Ujang</h1> <h3>234758912</h3>
+
+            <div className="grid grid-cols-5 rounded-md px-9 py-5 text-black bg-primary place-items-start">
+              <h1>005</h1>
+              <h1>02/10/2023</h1>
+              <h1>13:00 WIB</h1>
+              <h1>-</h1>
+              <h1>Active</h1>
             </div>
-          </div>
-          <div className="mt-11">
-            <h1 className="font-bold">Jurusan</h1>
-            <h3>Teknologi Informasi</h3>
-            <div className="mt-6">
-              <h1 className="font-bold">Prodi</h1>
-              <h3>Sistem Informasi Bisnis</h3>
-            </div>
-            <div className="mt-6">
-              <h1 className="font-bold">No Hp.</h1>
-              <h3>083843318090</h3>
-            </div>
-            <div className="mt-6">
-              <h1 className="font-bold">email</h1>
-              <h3>ujangujang@gmail.com</h3>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-initial ml-9 ">
-          <div className="relative overflow-x-auto">
-            <table className="w-full text-sm text-left mb-5 text-gray-500 dark:text-gray-400">
-              <thead className="text-sm rounded-lg uppercase bg-black text-white font-bold">
-                <tr>
-                  <th scope="col" className="px-6 py-4 rounded-l-lg">
-                    BIKE CODE
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Date
-                  </th>
-                  <th scope="col" className="px-6 py-4 ">
-                    Pick Up Time
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Return Time
-                  </th>
-                  <th scope="col" className="px-6 py-4 rounded-r-lg">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="">
-                <tr className="bg-primary border-red-50 rounded-lg text-sm text-black font-semibold">
-                  <th scope="row" className="px-6 py-4 rounded-l-lg">
-                    005
-                  </th>
-                  <td className="px-6 py-4 ">02/10/2023</td>
-                  <td className="px-6 py-4">13.00 WIB</td>
-                  <td className="px-6 py-4">-</td>
-                  <td className="px-6 py-4 rounded-r-lg">Active</td>
-                </tr>
-                <tr className="bg-gray-100 border-red-50 rounded-lg text-black font-semibold">
-                  <th scope="row" className="rounded-l-lg px-6 py-4">
-                    005
-                  </th>
-                  <td className="px-6 py-4">02/10/2023</td>
-                  <td className="px-6 py-4">12.00 WIB</td>
-                  <td className="px-6 py-4">13.00 WIB</td>
-                  <td className="px-6 py-4 rounded-r-lg">Returned</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          </section>
         </div>
       </div>
     </>

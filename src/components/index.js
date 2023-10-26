@@ -3,5 +3,5 @@ import Modal from "./Modal";
 import Navbar from "./Navbar";
 import AuthProvider from "./AuthProvider";
 import LoadingCard from "./LoadingCard";
-
-export { Navbar, Card, Modal, AuthProvider, LoadingCard };
+import DropdownProfile from "./DropdownProfile";
+export { Navbar, Card, Modal, AuthProvider, LoadingCard, DropdownProfile };
