@@ -35,7 +35,10 @@ export default function Login() {
       }
     } catch (error) {
       console.error(error);
-      if (error) setError(true);
+      if (error) {
+        setLoading(false);
+        setError(true);
+      }
     } finally {
     }
   }
@@ -45,7 +48,7 @@ export default function Login() {
   }, []);
 
   return (
-    <div className="bg-cover h-screen bg-center flex items-center justify-center bg-[url('src/assets/images/login-bg.png')]">
+    <div className="bg-cover h-screen bg-center flex items-center justify-center bg-loginBg">
       <div className="rounded-xl shadow-xl max-w-md mx-auto bg-white">
         <div className="p-9">
           <h1 className="text-center font-bold text-3xl">Login and Enjoy Your Ride</h1>

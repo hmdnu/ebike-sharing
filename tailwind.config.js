@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        loginBg: "url('/src/assets/images/loginBg.png')",
+      },
       colors: {
         primary: "#F4CE14",
         secondary: "#F7F7F7",
