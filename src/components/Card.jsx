@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import LoadingCard from "./LoadingCard";
 import Modal from "./Modal";
-import { bike } from "../assets/images";
+import { bikeImage } from "../assets/images";
 
 export default function Card() {
   const [stations, setStations] = useState([]);
@@ -66,7 +66,7 @@ export default function Card() {
                   </h1>
                   <img
                     className="w-52 sm:w-60 flex mx-auto py-5"
-                    src={bike}
+                    src={bikeImage}
                     alt={`bike 00${bike.bikeCode}`}
                   />
                 </div>
