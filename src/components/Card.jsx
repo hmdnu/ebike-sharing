@@ -66,7 +66,7 @@ export default function Card() {
                   </h1>
                   <img
                     className="w-52 sm:w-60 flex mx-auto py-5"
-                    src={bikeImage}
+                    src="../assets/images/bike.png"
                     alt={`bike 00${bike.bikeCode}`}
                   />
                 </div>
