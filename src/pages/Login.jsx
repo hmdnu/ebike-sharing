@@ -27,7 +27,6 @@ export default function Login() {
       });
 
       const res = await data.json();
-      console.log(res);
 
       if (res.success) {
         setLoading(false);

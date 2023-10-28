@@ -1,7 +1,6 @@
 import { bikeImage } from "../assets/images";
-import { useEffect } from "react";
 
-export default function Modal({ bikeId, showModal, setShowModal }) {
+export default function Modal({ bikeId, setShowModal }) {
   return (
     <div className="flex flex-col items-center justify-center p-5 w-[400px] h-[500px] rounded-2xl bg-white">
       <div>

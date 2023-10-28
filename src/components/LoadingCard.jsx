@@ -1,6 +1,4 @@
-export default function LoadingCard({ stations }) {
-  const arr = 6;
-
+export default function LoadingCard() {
   return (
     <>
       {[...Array(6)].map((e, i) => (

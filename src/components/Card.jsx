@@ -52,7 +52,7 @@ export default function Card() {
     <div className="w-full">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[30px]">
         {loading ? (
-          <LoadingCard stations={stations} />
+          <LoadingCard />
         ) : (
           <>
             {stations[0]?.bike.map((bike) => (
