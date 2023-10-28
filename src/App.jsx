@@ -9,19 +9,19 @@ import {
 import { Root } from "./layouts";
 // pages
 import { Home, Profile, Login } from "./pages";
-import { AuthProvider } from "./components";
+import { ProtectedRoutes } from "./components";
 
 export default function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route path="login" element={<Login />} />
-        <Route element={<AuthProvider />}>
+        <Route element={<ProtectedRoutes />}>
           <Route index element={<Home />} />
           <Route path="profile/:userId" element={<Profile />} />
         </Route>
-      </Route>
-    )
+      </Route>,
+    ),
   );
 
   return <RouterProvider router={router} />;

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Login() {
-  const [input, setInput] = useState({ nim: "", password: "" });
+  const [input, setInput] = useState({ nim: "2713326578", password: "mahasiswa01" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -17,7 +18,7 @@ export default function Login() {
         headers: {
           "Content-type": "application/json",
         },
-        credentials: "include",
+        credentials: "omit",
         method: "POST",
         body: JSON.stringify({
           nim: input.nim,
@@ -30,7 +31,7 @@ export default function Login() {
 
       if (res.success) {
         setLoading(false);
-        console.log("ok");
+        Cookies.set("auth", res.token, { expires: 1 });
         navigate("/");
       }
     } catch (error) {
@@ -39,7 +40,6 @@ export default function Login() {
         setLoading(false);
         setError(true);
       }
-    } finally {
     }
   }
 
