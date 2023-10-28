@@ -1,4 +1,4 @@
-import { bike } from "../assets/images";
+import { bikeImage } from "../assets/images";
 import { useEffect } from "react";
 
 export default function Modal({ bikeId, showModal, setShowModal }) {
@@ -7,7 +7,7 @@ export default function Modal({ bikeId, showModal, setShowModal }) {
       <div>
         <h1 className="text-center font-bold text-xl mb-6">BIKE CODE : 00{bikeId}</h1>
 
-        <img src={bike} alt="bike" className="m-auto mb-9" />
+        <img src={bikeImage} alt="bike" className="m-auto mb-9" />
 
         <h1 className="text-center font-bold text-2xl mb-9">Rent this bike?</h1>
 
