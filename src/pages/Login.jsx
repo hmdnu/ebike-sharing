@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 export default function Login() {
-  const [input, setInput] = useState({ nim: "2713326578", password: "mahasiswa01" });
+  const [input, setInput] = useState({ nim: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
