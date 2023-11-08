@@ -13,9 +13,8 @@ export default {
       colors: {
         primary: "#F4CE14",
         secondary: "#F7F7F7",
+        black: "#0C0E10",
       },
     },
   },
-
-  plugins: [require("flowbite/plugin")],
 };

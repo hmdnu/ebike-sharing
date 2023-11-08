@@ -6,6 +6,7 @@ import { profilePic, loadingWheel } from "../assets/images";
 export default function Profile() {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [rentals, setRentals] = useState([]);
 
   let { userId } = useParams();
 
@@ -30,6 +31,21 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
+    (async () => {
+      try {
+        const data = await fetch(`${import.meta.env.VITE_API_URL}/rental/${userId}`);
+        const res = await data.json();
+
+        if (res.success) {
+          setRentals(res.rental);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
     document.title = "Profile";
   }, []);
 
@@ -39,41 +55,45 @@ export default function Profile() {
       <div className="w-[80%] m-auto flex justify-center items-center pt-20">
         <div className="w-full flex gap-[30px]">
           {/* user profile */}
-          <aside className="w-[285px] bg-secondary p-8 rounded-[10px] h-fit relative">
+          <aside className="sm:w-[285px] w-full bg-secondary p-8 rounded-[10px] h-fit relative font-">
             {loading ? (
-              <img src={loadingWheel} className="animate-spin w-[80px] m-auto" alt="loading" />
+              <img
+                src={loadingWheel}
+                className="animate-spin w-[80px] m-auto"
+                alt="loading"
+              />
             ) : (
-              <>
-                <div className="flex items-center gap-3 mb-11">
+              <div>
+                <div className="flex items-center gap-4 mb-11">
                   <img src={profilePic} alt="" />
                   <div>
-                    <h1>{user.nama}</h1>
+                    <h1 className="text-xl font-bold mb-1">{user.nama}</h1>
                     <h2>{user.nim}</h2>
                   </div>
                 </div>
                 <div className="flex flex-col gap-[26px]">
                   <div>
-                    <h1>Jurusan</h1>
+                    <h1 className="font-bold">Jurusan</h1>
                     <h2>{user.jurusan}</h2>
                   </div>
                   <div>
-                    <h1>Prodi</h1>
+                    <h1 className="font-bold">Prodi</h1>
                     <h2>{user.prodi}</h2>
                   </div>
                   <div>
-                    <h1>No Hp.</h1>
+                    <h1 className="font-bold">No Hp.</h1>
                     <h2>{user.noHp}</h2>
                   </div>
                   <div>
-                    <h1>Email</h1>
+                    <h1 className="font-bold">Email</h1>
                     <h2>{user.email}</h2>
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </aside>
 
-          <section className="w-full flex flex-col gap-2 font-bold">
+          <section className="max-sm:hidden w-full flex flex-col gap-2 font-bold">
             <div className="grid grid-cols-5 rounded-md px-9 py-5 text-white bg-[#0C0E10]">
               <h1>BIKE CODE</h1>
               <h1>Date</h1>
@@ -82,13 +102,19 @@ export default function Profile() {
               <h1>Status</h1>
             </div>
 
-            <div className="grid grid-cols-5 rounded-md px-9 py-5 text-black bg-primary place-items-start">
-              <h1>005</h1>
-              <h1>02/10/2023</h1>
-              <h1>13:00 WIB</h1>
-              <h1>-</h1>
-              <h1>Active</h1>
-            </div>
+            {/* {rentals.map((rental) => (
+              <div
+                className={`grid grid-cols-5 rounded-md px-9 py-5 text-black ${
+                  rental.status ? "bg-primary" : "bg-secondary"
+                } place-items-start`}
+              >
+                <h1>00{rental.bikeCode}</h1>
+                <h1>{rental.dateRent}</h1>
+                <h1>{rental.pickUpTime}</h1>
+                <h1>-</h1>
+                <h1>{rental.status ? "Active" : "Returned"}</h1>
+              </div>
+            ))} */}
           </section>
         </div>
       </div>

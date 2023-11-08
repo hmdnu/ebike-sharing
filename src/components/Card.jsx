@@ -2,26 +2,28 @@ import { useEffect, useState } from "react";
 import LoadingCard from "./LoadingCard";
 import Modal from "./Modal";
 import { bikeImage } from "../assets/images";
+import promiseResolver from "../utils/promiseResolver";
 
 export default function Card() {
   const [stations, setStations] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [bikeId, setBikeId] = useState();
+  const [bikeId, setBikeId] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     (async () => {
-      try {
-        setLoading(true);
+      setLoading(true);
+      const bikes = await fetch(`${import.meta.env.VITE_API_URL}/station`);
+      const [data, error] = await promiseResolver(bikes);
 
-        const data = await fetch(`${import.meta.env.VITE_API_URL}/station`);
+      if (data) {
         const res = await data.json();
+        setStations(res.station);
+        setLoading(false);
+      }
 
-        if (res.success) {
-          setStations(res.station);
-          setLoading(false);
-        }
-      } catch (error) {
+      if (error) {
+        setLoading(false);
         console.error(error);
       }
     })();
@@ -90,7 +92,12 @@ export default function Card() {
           id="container"
           className="fixed z-50 w-full h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.5)]"
         >
-          <Modal bikeId={bikeId} showModal={showModal} setShowModal={setShowModal} />
+          <Modal
+            station={stations[0] && "1"}
+            bikeId={bikeId}
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
         </div>
       )}
     </div>
