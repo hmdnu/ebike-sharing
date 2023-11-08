@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { loadingWheel } from "../assets/images";
 
 export default function Login() {
-  const [input, setInput] = useState({ nim: "2713326578", password: "mahasiswa01" });
+  const [input, setInput] = useState({ nim: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
