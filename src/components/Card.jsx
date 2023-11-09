@@ -3,6 +3,7 @@ import LoadingCard from "./LoadingCard";
 import Modal from "./Modal";
 import { bikeImage } from "../assets/images";
 import promiseResolver from "../utils/promiseResolver";
+import { baseApiUrl } from "../constant";
 
 export default function Card() {
   const [stations, setStations] = useState([]);
@@ -13,7 +14,7 @@ export default function Card() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const bikes = await fetch(`${import.meta.env.VITE_API_URL}/station`);
+      const bikes = await fetch(`${baseApiUrl}/station`);
       const [data, error] = await promiseResolver(bikes);
 
       if (data) {

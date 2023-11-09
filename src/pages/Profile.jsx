@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../components";
 import { profilePic, loadingWheel } from "../assets/images";
+import { baseApiUrl } from "../constant";
 
 export default function Profile() {
   const [user, setUser] = useState([]);
@@ -14,10 +15,7 @@ export default function Profile() {
     (async () => {
       try {
         setLoading(true);
-        const data = await fetch(
-          `${import.meta.env.VITE_API_URL}/user/${userId}` ||
-            `http://localhost:5000/user/${userId}`,
-        );
+        const data = await fetch(`${baseApiUrl}/user/${userId}`);
         const res = await data.json();
 
         if (res.success) {
@@ -33,7 +31,7 @@ export default function Profile() {
   useEffect(() => {
     (async () => {
       try {
-        const data = await fetch(`${import.meta.env.VITE_API_URL}/rental/${userId}`);
+        const data = await fetch(`${baseApiUrl}/rental/${userId}`);
         const res = await data.json();
 
         if (res.success) {

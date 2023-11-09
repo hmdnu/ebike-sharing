@@ -7,6 +7,8 @@ import { dateRent, pickUpTime } from "../utils/getDate";
 import { bikeImage, loadingWheel, qrcode } from "../assets/images";
 import { useEffect, useState } from "react";
 
+import { baseApiUrl } from "../constant";
+
 function Modal({ bikeId, setShowModal, station }) {
   const [loading, setLoading] = useState(false);
   const [showQr, setShowQr] = useState(false);
@@ -19,7 +21,7 @@ function Modal({ bikeId, setShowModal, station }) {
   // get rental
   useEffect(() => {
     (async () => {
-      const userRental = await fetch(`${import.meta.env.VITE_API_URL}/rental/${user.id}`);
+      const userRental = await fetch(`${baseApiUrl}/rental/${user.id}`);
 
       const [data, error] = await promiseResolver(userRental);
 
@@ -32,7 +34,7 @@ function Modal({ bikeId, setShowModal, station }) {
 
   async function handleCreateRental() {
     setLoading(true);
-    const newRental = await fetch(`${import.meta.env.VITE_API_URL}/rental/new`, {
+    const newRental = await fetch(`${baseApiUrl}/rental/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

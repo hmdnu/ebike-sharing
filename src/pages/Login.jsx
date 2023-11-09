@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import { loadingWheel } from "../assets/images";
+import Cookies from "js-cookie";
+import { baseApiUrl } from "../constant/index.js";
 
 export default function Login() {
   const [input, setInput] = useState({ nim: "", password: "" });
@@ -16,7 +17,7 @@ export default function Login() {
 
     try {
       setLoading(true);
-      const data = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, {
+      const data = await fetch(`${baseApiUrl}/user/login`, {
         headers: {
           "Content-type": "application/json",
         },
