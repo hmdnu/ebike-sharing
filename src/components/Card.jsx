@@ -11,6 +11,7 @@ export default function Card() {
   const [bikeId, setBikeId] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
+  // get all bikes
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -40,7 +41,7 @@ export default function Card() {
     }
   }, [showModal]);
 
-  function handleShowModal(bikeId) {
+  async function handleShowModal(bikeId) {
     setShowModal((prev) => !prev);
     setBikeId(bikeId);
   }
@@ -67,11 +68,7 @@ export default function Card() {
                   <h1 className="mb-2 text-base font-bold tracking-tight text-gray-900 text-center">
                     BIKE CODE : {`00${bike.bikeCode}`}
                   </h1>
-                  <img
-                    className="w-52 sm:w-60 flex mx-auto py-5"
-                    src={bikeImage}
-                    alt={`bike 00${bike.bikeCode}`}
-                  />
+                  <img className="w-52 sm:w-60 flex mx-auto py-5" src={bikeImage} alt={`bike 00${bike.bikeCode}`} />
                 </div>
 
                 <div>
@@ -93,12 +90,7 @@ export default function Card() {
           id="container"
           className="fixed z-50 w-full h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.5)]"
         >
-          <Modal
-            station={stations[0] && "1"}
-            bikeId={bikeId}
-            showModal={showModal}
-            setShowModal={setShowModal}
-          />
+          <Modal station={stations[0] && "1"} bikeId={bikeId} showModal={showModal} setShowModal={setShowModal} />
         </div>
       )}
     </div>

@@ -1,17 +1,9 @@
-let date = new Date();
+import date from "date-and-time";
 
-export let dateRent = date
-  .toString()
-  .split(" ")
-  .slice(1, 4)
-  .map((e) => e)
-  .join("/");
+const time = new Date();
 
-export let pickUpTime = date
-  .toString()
-  .split(" ")
-  .slice(4, 5)
-  .join("")
-  .split(":")
-  .slice(0, 2)
-  .join(":");
+// get today date
+export const dateNow = date.format(time, "DD MMM YYYY");
+
+// get today time
+export const timeNow = date.format(time, "HH:mm");

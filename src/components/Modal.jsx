@@ -3,34 +3,19 @@ import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 import promiseResolver from "../utils/promiseResolver";
 
-import { dateRent, pickUpTime } from "../utils/getDate";
+import { dateNow, timeNow } from "../utils/getDate";
 import { bikeImage, loadingWheel, qrcode } from "../assets/images";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { baseApiUrl } from "../constant";
 
-function Modal({ bikeId, setShowModal, station }) {
+function Modal({ bikeId, setShowModal, station, showModal }) {
   const [loading, setLoading] = useState(false);
   const [showQr, setShowQr] = useState(false);
-  const [bikeStatus, setBikeStatus] = useState(true);
-  const [rentalData, setRentalData] = useState({});
+  const [rentalData, setRentalData] = useState([]);
 
   const token = Cookies.get("auth");
   const user = jwtDecode(token);
-
-  // get rental
-  useEffect(() => {
-    (async () => {
-      const userRental = await fetch(`${baseApiUrl}/rental/${user.id}`);
-
-      const [data, error] = await promiseResolver(userRental);
-
-      if (data) {
-        const res = await data.json();
-        console.log(res);
-      }
-    })();
-  }, []);
 
   async function handleCreateRental() {
     setLoading(true);
@@ -44,9 +29,8 @@ function Modal({ bikeId, setShowModal, station }) {
         renter: user?.id,
         bikeCode: bikeId,
         station,
-        status: bikeStatus,
-        pickUpTime,
-        dateRent,
+        pickUpTime: timeNow,
+        dateRent: dateNow,
       }),
     });
 
@@ -54,15 +38,19 @@ function Modal({ bikeId, setShowModal, station }) {
 
     if (data) {
       const res = await data.json();
+      console.log(res);
 
-      setRentalData({
-        bikeCode: res.renter.bikeCode,
-        station: res.renter.station,
-        pickUpTime: res.renter.pickUpTime,
-        dateRent: res.renter.dateRent,
-      });
+      localStorage.setItem(
+        "rentalData",
+        JSON.stringify({
+          bikeCode: res.renter.bikeCode,
+          station: res.renter.station,
+          pickUpTime: res.renter.pickUpTime,
+          dateRent: res.renter.dateRent,
+          isRented: res.renter.isRented,
+        }),
+      );
 
-      console.log({ ...rentalData });
       setLoading(false);
       setShowQr(true);
     }
@@ -73,17 +61,17 @@ function Modal({ bikeId, setShowModal, station }) {
     }
   }
 
+  // push rentalData to historyRental
   async function handleEditUserHistoryRental() {
-    const userHistory = await fetch(
-      `${import.meta.env.VITE_API_URL}/user/edit/${user.id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
+    const rentalData = localStorage.getItem("rentalData");
+
+    const userHistory = await fetch(`${baseApiUrl}/user/edit/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: rentalData,
+    });
 
     const [data, error] = await promiseResolver(userHistory);
 
@@ -119,20 +107,9 @@ function Modal({ bikeId, setShowModal, station }) {
               onClick={handleSubmitRental}
               className="bg-primary h-[50px] rounded-md"
             >
-              {loading ? (
-                <img
-                  src={loadingWheel}
-                  alt="loading"
-                  className="w-7 m-auto animate-spin"
-                />
-              ) : (
-                "RENT"
-              )}
+              {loading ? <img src={loadingWheel} alt="loading" className="w-7 m-auto animate-spin" /> : "RENT"}
             </button>
-            <button
-              onClick={() => setShowModal((prev) => !prev)}
-              className="bg-secondary h-[50px]"
-            >
+            <button onClick={async () => setShowModal((prev) => !prev)} className="bg-secondary h-[50px]">
               CANCEL
             </button>
           </div>
